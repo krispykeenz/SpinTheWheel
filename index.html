@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spin the Bagel Wheel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🥯 Spin the Bagel 🥯</h1>
+        
+        <div class="mode-toggle">
+            <button id="spinModeBtn" class="mode-btn active">Spin Mode</button>
+            <button id="editModeBtn" class="mode-btn">Edit Mode</button>
+        </div>
+
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <div class="wheel" id="wheel">
+                <div class="bagel-hole"></div>
+            </div>
+        </div>
+
+        <div id="spinControls" class="controls">
+            <button id="spinBtn" class="spin-btn">SPIN!</button>
+            <div id="result" class="result"></div>
+        </div>
+
+        <div id="editControls" class="controls hidden">
+            <div class="edit-panel">
+                <h3>Edit Wheel Options</h3>
+                <div id="optionsList" class="options-list"></div>
+                <div class="add-option">
+                    <input type="text" id="newOption" placeholder="Enter new option...">
+                    <button id="addBtn">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
