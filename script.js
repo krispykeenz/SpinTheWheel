@@ -1,11 +1,11 @@
 // Default wheel options
 let options = [
-    { text: 'Pizza', color: '#FFD93D' },
-    { text: 'Burger', color: '#FF6B6B' },
-    { text: 'Sushi', color: '#6BCB77' },
-    { text: 'Tacos', color: '#4D96FF' },
-    { text: 'Pasta', color: '#9B59B6' },
-    { text: 'Salad', color: '#1ABC9C' }
+    { text: '15% OFF!', color: '#FFD93D' },
+    { text: '20% OFF!', color: '#FF6B6B' },
+    { text: '25% OFF!', color: '#6BCB77' },
+    { text: '30% OFF!', color: '#4D96FF' },
+    { text: '50% OFF!', color: '#9B59B6' },
+    { text: 'FREE COFFEE!', color: '#1ABC9C' }
 ];
 
 // Bagel-inspired color palette
