@@ -176,9 +176,9 @@ function spinWheel() {
         spinBtn.disabled = false;
         
         // Calculate which segment is at the top (pointer position)
-        const normalizedRotation = totalRotation % 360;
+        const normalizedRotation = ((totalRotation % 360) + 360) % 360;
         const segmentAngle = 360 / options.length;
-        const winningIndex = Math.floor((360 - normalizedRotation + segmentAngle / 2) % 360 / segmentAngle);
+        const winningIndex = Math.floor((360 - normalizedRotation) / segmentAngle) % options.length;
         
         const winner = options[winningIndex % options.length];
         resultDiv.textContent = `🎉 ${winner.text} 🎉`;
