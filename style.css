@@ -18,10 +18,23 @@ body {
     padding: 20px;
 }
 
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.club-logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
 h1 {
     color: #8b5a2b;
     margin-bottom: 20px;
-    font-size: 2.5rem;
+    font-size: 2rem;
     text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -94,8 +107,8 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     background: linear-gradient(135deg, #f5e6d3 0%, #e8d4b8 100%);
     border-radius: 50%;
     z-index: 50;
@@ -103,6 +116,16 @@ h1 {
         inset 0 0 20px rgba(139, 90, 43, 0.4),
         0 0 0 6px #c49464,
         0 0 0 10px #8b5a2b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.bagel-center {
+    width: 85px;
+    height: 85px;
+    object-fit: contain;
 }
 
 .wheel-segment {
