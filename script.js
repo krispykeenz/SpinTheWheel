@@ -24,6 +24,8 @@ const bagelColors = [
 
 let currentRotation = 0;
 let isSpinning = false;
+const FREE_COFFEE_INTERVAL = 20;
+const FREE_COFFEE_COUNTER_KEY = 'spinsSinceFreeCoffee';
 
 // DOM Elements
 const wheel = document.getElementById('wheel');
@@ -160,9 +162,14 @@ function spinWheel() {
     spinBtn.disabled = true;
     resultDiv.classList.remove('show');
     
-    // Random spin between 5-10 full rotations plus random position
+    const segmentAngle = 360 / options.length;
+    const winningIndex = pickWinningIndex();
+    const targetNormalizedRotation = getTargetRotationForSegment(winningIndex, segmentAngle);
+    const currentNormalizedRotation = ((currentRotation % 360) + 360) % 360;
+    
+    // Random spin between 5-10 full rotations plus deterministic landing position
     const spins = 5 + Math.random() * 5;
-    const randomAngle = Math.random() * 360;
+    const randomAngle = (targetNormalizedRotation - currentNormalizedRotation + 360) % 360;
     const totalRotation = currentRotation + (spins * 360) + randomAngle;
     
     wheel.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
@@ -174,16 +181,57 @@ function spinWheel() {
     setTimeout(() => {
         isSpinning = false;
         spinBtn.disabled = false;
-        
-        // Calculate which segment is at the top (pointer position)
-        const normalizedRotation = ((totalRotation % 360) + 360) % 360;
-        const segmentAngle = 360 / options.length;
-        const winningIndex = Math.floor((360 - normalizedRotation) / segmentAngle) % options.length;
-        
+
         const winner = options[winningIndex % options.length];
+        updateFreeCoffeeCounter(winner);
         resultDiv.textContent = `🎉 ${winner.text} 🎉`;
         resultDiv.classList.add('show');
     }, 4000);
+}
+
+function pickWinningIndex() {
+    const freeCoffeeIndex = options.findIndex((option) =>
+        option.text.toLowerCase().includes('free coffee')
+    );
+    
+    if (freeCoffeeIndex === -1 || options.length === 1) {
+        return Math.floor(Math.random() * options.length);
+    }
+    
+    const spinsSinceFreeCoffee = getSpinsSinceFreeCoffee();
+    if (spinsSinceFreeCoffee >= FREE_COFFEE_INTERVAL - 1) {
+        return freeCoffeeIndex;
+    }
+    
+    const nonCoffeeIndexes = options
+        .map((_, index) => index)
+        .filter((index) => index !== freeCoffeeIndex);
+    
+    return nonCoffeeIndexes[Math.floor(Math.random() * nonCoffeeIndexes.length)];
+}
+
+function getTargetRotationForSegment(segmentIndex, segmentAngle) {
+    const segmentCenter = (360 - ((segmentIndex + 0.5) * segmentAngle) + 360) % 360;
+    const jitterRange = segmentAngle * 0.5;
+    const jitter = (Math.random() - 0.5) * jitterRange;
+    return (segmentCenter + jitter + 360) % 360;
+}
+
+function getSpinsSinceFreeCoffee() {
+    const rawValue = localStorage.getItem(FREE_COFFEE_COUNTER_KEY);
+    const parsed = Number.parseInt(rawValue, 10);
+    return Number.isNaN(parsed) ? 0 : parsed;
+}
+
+function updateFreeCoffeeCounter(winner) {
+    const isFreeCoffeeWinner = winner.text.toLowerCase().includes('free coffee');
+    if (isFreeCoffeeWinner) {
+        localStorage.setItem(FREE_COFFEE_COUNTER_KEY, '0');
+        return;
+    }
+    
+    const nextCount = getSpinsSinceFreeCoffee() + 1;
+    localStorage.setItem(FREE_COFFEE_COUNTER_KEY, String(nextCount));
 }
 
 function renderOptionsList() {
